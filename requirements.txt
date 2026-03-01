@@ -1,0 +1,30 @@
+# Core ML Libraries
+numpy
+pandas
+scikit-learn
+scipy
+
+# Model Tracking
+mlflow
+
+# API Framework
+fastapi
+uvicorn
+
+# Data Validation
+pydantic
+
+# Visualization (Optional - for EDA)
+matplotlib
+seaborn
+
+# Environment & Utilities
+python-dotenv
+joblib
+
+# AWS Deployment (if using S3 or EC2)
+boto3
+
+# Jupyter (optional for development)
+notebook
+ipykernel
