@@ -1,0 +1,5 @@
+crop_reco_env/
+__pycache__/
+*.pyc
+.env
+mlruns/
