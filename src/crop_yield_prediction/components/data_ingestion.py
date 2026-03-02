@@ -32,7 +32,7 @@ class DataIngestion:
         return raw_data_path
     
     def _split_data(self, df):
-        return train_test_split(df , test_size = 0.2, random_state= 42)
+        return train_test_split(df , test_size = 0.3, random_state= 42)
     
     def mainDataIngestionpart(self):
         logger.info("starting Data_ingestion")
