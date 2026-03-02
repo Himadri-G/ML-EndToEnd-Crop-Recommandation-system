@@ -34,7 +34,7 @@ class DataIngestion:
     def _split_data(self, df):
         return train_test_split(df , test_size = 0.3, random_state= 42)
     
-    def mainDataIngestionpart(self):
+    def main_DataIngestion_part(self):
         logger.info("starting Data_ingestion")
         os.makedirs(self.config.root_dir , exist_ok= True)
         
