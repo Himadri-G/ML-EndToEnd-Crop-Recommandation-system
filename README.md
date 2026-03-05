@@ -1,5 +1,3 @@
----
-
 # 🌾 End-to-End Crop Yield Prediction System
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
@@ -94,6 +92,9 @@ ML-EndToEnd-Crop-Yield-Prediction-System
 ├── main.py
 └── README.md
 ```
+
+---
+
 # 🏗️ ML Pipeline Architecture
 
 ```mermaid
@@ -103,19 +104,17 @@ A[Raw Dataset] --> B[Data Ingestion]
 B --> C[Data Validation]
 C --> D[Data Preprocessing]
 D --> E[Feature Engineering]
-
 E --> F[Model Training]
-
 F --> G[Model Evaluation]
-
 G --> H[MLflow Experiment Tracking]
-
 H --> I[Trained Model Artifact]
 
 style A fill:#f9f,stroke:#333
 style F fill:#bbf,stroke:#333
 style G fill:#bfb,stroke:#333
 style H fill:#ffb,stroke:#333
+```
+
 ---
 
 # 🔄 Machine Learning Pipeline
@@ -151,28 +150,33 @@ The pipeline consists of **5 stages**:
 * Calculates evaluation metrics
 * Logs results to **MLflow**
 
-```
+---
 
-# 📊 Model Used
+# 📊 Models Used
 
-Example models that can be used:
+Example models included in the project:
 
 * Linear Regression
+* Ridge Regression
+* Lasso Regression
+* ElasticNet
 * Decision Tree Regressor
-* Random Forest Regressor
+* Gradient Boosting Regressor
+* SVR
+* KNN Regressor
 
-Evaluation metrics:
+Evaluation Metrics:
 
 * RMSE
 * R² Score
 
-```
+---
 
 # 📦 Installation
 
 Clone the repository:
 
-```
+```bash
 git clone https://github.com/Himadri-G/ML-EndToEnd-Crop-Recommandation-system.git
 cd ML-EndToEnd-Crop-Recommandation-system
 ```
@@ -183,9 +187,7 @@ Create virtual environment:
 python -m venv project_env
 ```
 
-Activate environment:
-
-Windows
+Activate environment (Windows):
 
 ```bash
 project_env\Scripts\activate
@@ -223,14 +225,6 @@ Check pipeline stages:
 dvc dag
 ```
 
----
-
-# 2️⃣ DVC Pipeline Graph (Auto Generated)
-
-Run this command in your project:
-
-```bash
-dvc dag
 ---
 
 # 📊 Experiment Tracking (MLflow)
@@ -304,7 +298,7 @@ Example logs:
 # 🚀 Key Features
 
 ✅ End-to-End ML Pipeline
-✅ Modular code structure
+✅ Modular Code Architecture
 ✅ Data Versioning using DVC
 ✅ Experiment Tracking with MLflow
 ✅ Config Driven Development
@@ -316,7 +310,7 @@ Example logs:
 # 📈 Future Improvements
 
 * Add **FastAPI for model serving**
-* Deploy on **Docker**
+* Deploy with **Docker**
 * Add **CI/CD pipeline**
 * Deploy on **AWS / GCP**
 
@@ -328,8 +322,8 @@ Example logs:
 
 BCA(H) Student | Aspiring AI Engineer | Machine Learning Enthusiast
 
-GitHub
-[https://github.com/Himadri-G](https://github.com/Himadri-G)
+GitHub:
+https://github.com/Himadri-G
 
 ---
 
@@ -340,6 +334,3 @@ If you like this project:
 ⭐ Star the repository
 🍴 Fork the project
 📢 Share with others
-
----
-
