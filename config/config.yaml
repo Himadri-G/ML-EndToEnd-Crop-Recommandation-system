@@ -3,7 +3,7 @@ artifacts_root: artifacts
 
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_dir: data/raw/Crop_recommendation.csv
+  source_dir: data/raw_data/yield_df.csv
   train_dir: artifacts/data_ingestion/train.csv
   test_dir: artifacts/data_ingestion/test.csv
 
@@ -24,6 +24,7 @@ model_training:
   root_dir: artifacts/model_trainer
   model_path: artifacts/model_trainer/model.pkl
   params_file: config/params.yaml
+
 
 model_evaluation:
   root_dir: artifacts/model_evaluation

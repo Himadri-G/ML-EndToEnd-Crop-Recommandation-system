@@ -1,0 +1,62 @@
+stages:
+
+  data_ingestion:
+    cmd: python -m crop_yield_prediction.pipeline.stage_01_data_ingestion_pipeline
+    deps:
+      - data/raw/crop_yield_prediction.csv
+      - config/config.yaml
+      - src/crop_yield_prediction/components/data_ingestion.py
+      - src/crop_yield_prediction/configuration/config.py
+      - src/crop_yield_prediction/entity/config_entity.py
+    outs:
+      - artifacts/data_ingestion/train.csv
+      - artifacts/data_ingestion/test.csv
+
+
+  data_validation:
+    cmd: python -m crop_yield_prediction.pipeline.stage_02_data_validation_pipeline
+    deps:
+      - artifacts/data_ingestion/train.csv
+      - config/config.yaml
+      - config/schema.yaml
+      - src/crop_yield_prediction/components/data_validation.py
+      - src/crop_yield_prediction/configuration/config.py
+      - src/crop_yield_prediction/entity/config_entity.py
+    outs:
+      - artifacts/data_validation/status.txt
+
+
+  data_preprocessing:
+    cmd: python -m crop_yield_prediction.pipeline.stage_03_data_preprocessing_pipeline
+    deps:
+      - artifacts/data_ingestion/train.csv
+      - artifacts/data_ingestion/test.csv
+      - artifacts/data_validation/status.txt
+      - config/config.yaml
+      - src/crop_yield_prediction/components/data_preprocessing.py
+      - src/crop_yield_prediction/configuration/config.py
+      - src/crop_yield_prediction/entity/config_entity.py
+    outs:
+      - artifacts/data_preprocessing/train_processed.csv
+      - artifacts/data_preprocessing/test_processed.csv
+      - artifacts/data_preprocessing/scaler.pkl
+
+  model_trainer:
+    cmd: python -m crop_yield_prediction.pipeline.stage_04_training_pipeline
+    deps:
+      - src/crop_yield_prediction/components/training.py
+      - src/crop_yield_prediction/pipeline/stage_04_training_pipeline.py
+      - artifacts/data_preprocessing/train_processed.csv
+      - artifacts/data_preprocessing/test_processed.csv
+      - config/params.yaml
+    outs:
+      - artifacts/model_trainer/model.pkl
+  model_evaluation:
+    cmd: python -m crop_yield_prediction.pipeline.stage_05_evaluation_pipeline
+    deps:
+      - src/crop_yield_prediction/pipeline/stage_05_evaluation_pipeline.py
+      - src/crop_yield_prediction/components/evaluation.py
+      - artifacts/model_trainer/model.pkl
+      - artifacts/data_preprocessing/test_processed.csv
+    outs:
+      - artifacts/model_evaluation/metrics.json

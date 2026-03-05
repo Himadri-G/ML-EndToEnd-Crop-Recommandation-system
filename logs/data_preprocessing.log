@@ -1,0 +1,4 @@
+[2026-03-05 12:28:30,335] INFO - crop_yield_prediction.components.data_preprocessing - Starting Data Preprocessing !
+[2026-03-05 12:28:30,335] INFO - crop_yield_prediction.components.data_preprocessing - Loading train and test data
+[2026-03-05 12:28:30,364] INFO - crop_yield_prediction.components.data_preprocessing - Train shape: (19769, 8)
+[2026-03-05 12:28:30,364] INFO - crop_yield_prediction.components.data_preprocessing - Test shape: (8473, 8)

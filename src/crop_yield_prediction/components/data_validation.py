@@ -29,7 +29,7 @@ class DataValidation:
         schema = self._read_schema()
         expected_columns = list(schema["columns"].keys())
         
-        df = pd.read_csv(self.config.train_dir)
+        df = pd.read_csv(self.config.train_dir, index_col=0)
         actual_columns = list(df.columns)
             
         if len(expected_columns) != len(actual_columns):
