@@ -3,7 +3,7 @@ from pathlib import Path
 import mlflow
 
 from crop_yield_prediction.configuration.config import ConfigManager
-from crop_yield_prediction.components.model_training import ModelTrainer
+from crop_yield_prediction.components.model_training import ModelTraining
 from crop_yield_prediction.utils.logger import get_logger
 
 
@@ -19,7 +19,7 @@ def main():
     logger.info(f"{STAGE_NAME} started.........")
 
     # MLflow Tracking Server
-    mlflow.set_tracking_uri("http://ec2-3-87-236-150.compute-1.amazonaws.com:5000")
+    mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
     mlflow.set_experiment("Crop_Yield_Prediction_Training")
 
@@ -28,7 +28,7 @@ def main():
     training_config = config_manager.get_model_training_config()
 
     # Initialize and run training
-    trainer = ModelTrainer(config=training_config)
+    trainer = ModelTraining(config=training_config)
     trainer.main_model_training()
 
     logger.info(f"{STAGE_NAME} completed")
