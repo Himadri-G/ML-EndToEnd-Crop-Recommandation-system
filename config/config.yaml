@@ -20,7 +20,7 @@ data_preprocessing:
   processed_test_dir: artifacts/data_preprocessing/test_processed.csv
   scaler_path: artifacts/data_preprocessing/scaler.pkl
 
-model_trainer:
+model_training:
   root_dir: artifacts/model_trainer
   model_path: artifacts/model_trainer/model.pkl
   params_file: config/params.yaml
