@@ -16,9 +16,6 @@ class ConfigManager:
     def __init__(self, config_path: Path):
         self.config = self._read_yaml(config_path)
 
-    # ==============================
-    # YAML READER
-    # ==============================
 
     def _read_yaml(self, config_path: Path):
         if not config_path.exists():
@@ -27,9 +24,7 @@ class ConfigManager:
         with open(config_path, "r") as file:
             return yaml.safe_load(file)
 
-    # ==============================
-    # STAGE 01 — DATA INGESTION
-    # ==============================
+
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
 
@@ -47,9 +42,7 @@ class ConfigManager:
             test_dir=Path(ingestion["test_dir"]),
         )
 
-    # ==============================
-    # STAGE 02 — DATA VALIDATION
-    # ==============================
+
 
     def get_data_validation_config(self) -> DataValidationConfig:
 
@@ -67,9 +60,7 @@ class ConfigManager:
             schema_file=Path(validation["schema_file"]),
         )
 
-    # ==============================
-    # STAGE 03 — DATA PREPROCESSING
-    # ==============================
+
 
     def get_data_preprocessing_config(self) -> DataPreprocessingConfig:
 
@@ -91,9 +82,7 @@ class ConfigManager:
             scaler_path=Path(preprocessing["scaler_path"]),
         )
 
-    # ==============================
-    # STAGE 04 — MODEL TRAINING
-    # ==============================
+
 
     def get_model_trainer_config(self) -> ModelTrainerConfig:
 
@@ -114,9 +103,7 @@ class ConfigManager:
             params_file=Path(trainer["params_file"]),
         )
 
-    # ==============================
-    # STAGE 05 — MODEL EVALUATION
-    # ==============================
+
 
     def get_model_evaluation_config(self) -> ModelEvaluationConfig:
 
