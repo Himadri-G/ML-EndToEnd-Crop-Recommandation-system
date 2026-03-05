@@ -2,3 +2,5 @@
 [2026-03-05 12:26:07,670] INFO - crop_yield_prediction.components.data_validation - Data Validation Completed !
 [2026-03-05 12:28:30,309] INFO - crop_yield_prediction.components.data_validation - Data Validation Started !
 [2026-03-05 12:28:30,331] INFO - crop_yield_prediction.components.data_validation - Data Validation Completed !
+[2026-03-05 17:45:27,568] INFO - crop_yield_prediction.components.data_validation - Data Validation Started !
+[2026-03-05 17:45:27,593] INFO - crop_yield_prediction.components.data_validation - Data Validation Completed !

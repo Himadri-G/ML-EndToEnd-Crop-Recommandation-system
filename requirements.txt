@@ -28,3 +28,7 @@ boto3
 # Jupyter (optional for development)
 notebook
 ipykernel
+
+-e.
+
+optuna

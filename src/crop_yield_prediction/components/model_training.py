@@ -4,18 +4,22 @@ import joblib
 import optuna
 import mlflow
 import mlflow.sklearn
+import numpy as np
 
 from pathlib import Path
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, root_mean_squared_error, mean_absolute_error
+
+from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.svm import SVR
+from sklearn.neighbors import KNeighborsRegressor
+
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 
 from crop_yield_prediction.entity.config_entity import ModelTrainingConfig
 from crop_yield_prediction.utils.logger import get_logger
 
-logger = get_logger(
-    name=__name__,
-    log_file="model_training.log"
-)
+logger = get_logger(__name__, "model_training.log")
 
 
 class ModelTraining:
@@ -28,131 +32,142 @@ class ModelTraining:
             params = yaml.safe_load(f)
 
         if not params:
-            raise ValueError("params.yaml is empty or invalid")
-
-        if "random_forest" not in params:
-            raise KeyError("Missing 'random_forest' section in params.yaml")
+            raise ValueError("params.yaml is empty")
 
         if "optuna" not in params:
-            raise KeyError("Missing 'optuna' section in params.yaml")
+            raise KeyError("Missing optuna section in params.yaml")
 
         return params
 
     # ------------------ LOAD DATA ------------------ #
     def _load_data(self):
-        train_df = pd.read_csv(self.config.processed_train_path)
-        test_df = pd.read_csv(self.config.processed_test_path)
+        train_df = pd.read_csv(self.config.preprocessed_train_dir)
+        test_df = pd.read_csv(self.config.preprocessed_test_dir)
         return train_df, test_df
 
     def _split_features_target(self, df):
-        X = df.drop(columns=["yield"])
-        y = df["yield"]
+        X = df.drop(columns=[self.config.target_column])
+        y = df[self.config.target_column]
         return X, y
 
-    # ------------------ OPTUNA OBJECTIVE ------------------ #
-    def _objective(self, trial, X_train, y_train, X_test, y_test, rf_params):
+    # ------------------ MODEL FACTORY ------------------ #
+    def _get_model(self, model_name, params):
 
-        params = {
-            "n_estimators": trial.suggest_int(
-                "n_estimators",
-                rf_params["n_estimators"]["low"],
-                rf_params["n_estimators"]["high"]
-            ),
-            "max_depth": trial.suggest_int(
-                "max_depth",
-                rf_params["max_depth"]["low"],
-                rf_params["max_depth"]["high"]
-            ),
-            "min_samples_split": trial.suggest_int(
-                "min_samples_split",
-                rf_params["min_samples_split"]["low"],
-                rf_params["min_samples_split"]["high"]
-            ),
-            "min_samples_leaf": trial.suggest_int(
-                "min_samples_leaf",
-                rf_params["min_samples_leaf"]["low"],
-                rf_params["min_samples_leaf"]["high"]
-            ),
-            "random_state": rf_params["random_state"]
+        models = {
+            "linear_regression": LinearRegression(),
+            "ridge": Ridge(**params),
+            "lasso": Lasso(**params),
+            "elasticnet": ElasticNet(**params),
+            "decision_tree": DecisionTreeRegressor(**params),
+            "gradient_boosting": GradientBoostingRegressor(**params),
+            "svr": SVR(**params),
+            "knn": KNeighborsRegressor(**params)
         }
 
-        
-        with mlflow.start_run(nested=True):
+        return models[model_name]
 
-            model = RandomForestRegressor(**params)
-            model.fit(X_train, y_train)
+    # ------------------ OPTUNA OBJECTIVE ------------------ #
+    def _objective(self, trial, model_name, param_space, X_train, y_train, X_test, y_test):
 
-            preds = model.predict(X_test)
+        params = {}
 
-            r2 = r2_score(y_test, preds)
-            rmse = root_mean_squared_error(y_test, preds, squared=False)
+        for param, values in param_space.items():
 
-            mlflow.log_params(params)
-            mlflow.log_metric("r2_score", r2)
-            mlflow.log_metric("rmse", rmse)
+            if values["type"] == "int":
+                params[param] = trial.suggest_int(param, values["low"], values["high"])
+
+            elif values["type"] == "float":
+                params[param] = trial.suggest_float(param, values["low"], values["high"])
+
+            elif values["type"] == "categorical":
+                params[param] = trial.suggest_categorical(param, values["choices"])
+
+        model = self._get_model(model_name, params)
+
+        model.fit(X_train, y_train)
+
+        preds = model.predict(X_test)
+
+        r2 = r2_score(y_test, preds)
+        rmse = np.sqrt(mean_squared_error(y_test, preds))
+
+        mlflow.log_params(params)
+        mlflow.log_metric("r2_score", r2)
+        mlflow.log_metric("rmse", rmse)
 
         return r2
 
     # ------------------ MAIN TRAINING ------------------ #
-    def train(self):
-        mlflow.set_tracking_uri("http://127.0.0.1:5000")
-        mlflow.set_experiment("Crop_Yield_Prediction")
+    def main_ModelTraining_part(self):
 
-        logger.info("Starting Optuna hyperparameter tuning with MLflow")
+        mlflow.set_tracking_uri(self.config.mlflow_tracking_uri)
+        mlflow.set_experiment(self.config.mlflow_experiment_name)
+
+        logger.info("Starting Model Training")
 
         params = self._load_params()
-        rf_params = params["random_forest"]
+
         n_trials = params["optuna"]["n_trials"]
+        models_params = params["models"]
 
         train_df, test_df = self._load_data()
+
         X_train, y_train = self._split_features_target(train_df)
         X_test, y_test = self._split_features_target(test_df)
 
-        study = optuna.create_study(direction="maximize")
+        best_model = None
+        best_score = -np.inf
+        best_model_name = None
 
-        with mlflow.start_run(run_name="RandomForest_Optuna_Tuning"):
+        with mlflow.start_run(run_name="Regression_Model_Training"):
 
-            study.optimize(
-                lambda trial: self._objective(
-                    trial, X_train, y_train, X_test, y_test, rf_params
-                ),
-                n_trials=n_trials
-            )
+            for model_name, param_space in models_params.items():
 
-            best_params = study.best_params
-            best_params["random_state"] = rf_params["random_state"]
+                logger.info(f"Tuning model: {model_name}")
 
-            logger.info(f"Best R2 Score: {study.best_value}")
-            logger.info(f"Best Parameters: {best_params}")
+                study = optuna.create_study(direction="maximize")
 
+                study.optimize(
+                    lambda trial: self._objective(
+                        trial,
+                        model_name,
+                        param_space,
+                        X_train,
+                        y_train,
+                        X_test,
+                        y_test
+                    ),
+                    n_trials=n_trials
+                )
 
-            best_model = RandomForestRegressor(**best_params)
-            best_model.fit(X_train, y_train)
+                best_params = study.best_params
 
-            preds = best_model.predict(X_test)
+                model = self._get_model(model_name, best_params)
 
-            final_r2 = r2_score(y_test, preds)
-            final_rmse = root_mean_squared_error(y_test, preds, squared=False)
-            final_mae = mean_absolute_error(y_test, preds)
+                model.fit(X_train, y_train)
 
-            
-            mlflow.log_params(best_params)
-            mlflow.log_metric("final_r2_score", final_r2)
-            mlflow.log_metric("final_rmse", final_rmse)
-            mlflow.log_metric("final_mae", final_mae)
+                preds = model.predict(X_test)
 
-            
-            mlflow.sklearn.log_model(
-                best_model,
-                artifact_path="model",
-                registered_model_name="Crop_Yield_Model"
-            )
+                r2 = r2_score(y_test, preds)
 
-            Path(self.config.model_path).parent.mkdir(
-                parents=True, exist_ok=True
-            )
-            joblib.dump(best_model, self.config.model_path)
+                if r2 > best_score:
+                    best_score = r2
+                    best_model = model
+                    best_model_name = model_name
 
-        logger.info("Best model trained and saved successfully")
+        # ---------------- SAVE BEST MODEL ---------------- #
+
+        Path(self.config.model_path).parent.mkdir(parents=True, exist_ok=True)
+
+        joblib.dump(best_model, self.config.model_path)
+
+        mlflow.sklearn.log_model(
+            best_model,
+            artifact_path="model",
+            registered_model_name=self.config.mlflow_registered_model_name
+        )
+
+        logger.info(f"Best model: {best_model_name}")
+        logger.info(f"Best R2 score: {best_score}")
 
         return self.config.model_path

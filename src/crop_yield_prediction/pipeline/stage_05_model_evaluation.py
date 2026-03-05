@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 from crop_yield_prediction.configuration.config import ConfigManager
-from crop_yield_prediction.components.model_evalution import ModelEvaluation
+from crop_yield_prediction.components.model_evaluation import ModelEvaluation
 from crop_yield_prediction.utils.logger import get_logger
 
 STAGE_NAME = "Model Evaluation Stage"
@@ -18,7 +18,7 @@ def main():
     evaluation_config = config_manager.get_model_evaluation_config()
 
     evaluator = ModelEvaluation(config=evaluation_config)
-    evaluator.main_model_evaluation()
+    evaluator.main_ModelEvaluation_part()
 
     logger.info(f"{STAGE_NAME} completed")
 

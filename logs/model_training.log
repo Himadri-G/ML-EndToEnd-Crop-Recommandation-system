@@ -1,0 +1,13 @@
+[2026-03-05 18:42:36,814] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:45:47,001] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:47:26,149] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:48:26,050] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:49:12,754] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:49:51,604] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:50:42,572] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:51:16,869] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:55:00,699] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 18:58:39,787] INFO - crop_yield_prediction.components.model_training - Starting Optuna hyperparameter tuning with MLflow
+[2026-03-05 19:03:38,609] INFO - crop_yield_prediction.components.model_training - Best R2 Score: 0.9887568110123703
+[2026-03-05 19:03:38,609] INFO - crop_yield_prediction.components.model_training - Best Parameters: {'n_estimators': 214, 'max_depth': 33, 'min_samples_split': 2, 'min_samples_leaf': 1, 'random_state': 42}
+[2026-03-05 19:04:26,019] INFO - crop_yield_prediction.components.model_training - Best model trained and saved successfully

@@ -4,6 +4,7 @@ src/crop_yield_prediction/__init__.py
 src/crop_yield_prediction.egg-info/PKG-INFO
 src/crop_yield_prediction.egg-info/SOURCES.txt
 src/crop_yield_prediction.egg-info/dependency_links.txt
+src/crop_yield_prediction.egg-info/requires.txt
 src/crop_yield_prediction.egg-info/top_level.txt
 src/crop_yield_prediction/components/__init__.py
 src/crop_yield_prediction/components/data_ingestion.py

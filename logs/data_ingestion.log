@@ -2,3 +2,7 @@
 [2026-03-05 12:26:07,641] INFO - crop_yield_prediction.components.data_ingestion - Data Ingestion completed !
 [2026-03-05 12:28:30,134] INFO - crop_yield_prediction.components.data_ingestion - starting Data_ingestion
 [2026-03-05 12:28:30,306] INFO - crop_yield_prediction.components.data_ingestion - Data Ingestion completed !
+[2026-03-05 17:43:03,577] INFO - crop_yield_prediction.components.data_ingestion - starting Data_ingestion
+[2026-03-05 17:44:40,266] INFO - crop_yield_prediction.components.data_ingestion - starting Data_ingestion
+[2026-03-05 17:45:15,038] INFO - crop_yield_prediction.components.data_ingestion - starting Data_ingestion
+[2026-03-05 17:45:15,224] INFO - crop_yield_prediction.components.data_ingestion - Data Ingestion completed !

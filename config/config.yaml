@@ -3,7 +3,7 @@ artifacts_root: artifacts
 
 data_ingestion:
   root_dir: artifacts/data_ingestion
-  source_dir: data/raw_data/yield_df.csv
+  source_dir: data/raw/crop_yield_prediction.csv
   train_dir: artifacts/data_ingestion/train.csv
   test_dir: artifacts/data_ingestion/test.csv
 

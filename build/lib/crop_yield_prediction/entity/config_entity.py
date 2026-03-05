@@ -26,15 +26,11 @@ class DataPreprocessingConfig:
     
 @dataclass
 class ModelTrainingConfig:
-    root_dir: Path
-    preprocessed_train_dir: Path
-    preprocessed_test_dir: Path
-    model_path: Path
-    params_file: Path
-    target_column: str = "hg/ha_yield"  
-    mlflow_tracking_uri: str = "http://127.0.0.1:5000"  
-    mlflow_experiment_name: str = "CropYieldPrediction" 
-    mlflow_registered_model_name: str = "RandomForestModel"
+    root_dir : Path
+    preprocessed_train_dir : Path
+    preprocessed_test_dir : Path
+    model_path : Path
+    params_file : Path
     
 @dataclass
 class ModelEvaluationConfig:
@@ -42,7 +38,3 @@ class ModelEvaluationConfig:
     model_path: Path
     preprocessed_test_dir: Path
     metrics_file: Path
-    target_column: str = "hg/ha_yield"
-    mlflow_tracking_uri: str = "http://127.0.0.1:5000"  
-    mlflow_experiment_name: str = "CropYieldPrediction" 
-    mlflow_registered_model_name: str = "RandomForestModel"  
