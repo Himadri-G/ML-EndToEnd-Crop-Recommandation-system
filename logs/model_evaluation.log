@@ -1,9 +1,0 @@
-[2026-03-05 19:08:34,594] INFO - crop_yield_prediction.components.model_evaluation - Starting model evaluation for Crop Yield Prediction
-[2026-03-05 19:09:25,778] INFO - crop_yield_prediction.components.model_evaluation - Starting model evaluation for Crop Yield Prediction
-[2026-03-05 19:09:59,559] INFO - crop_yield_prediction.components.model_evaluation - Starting model evaluation for Crop Yield Prediction
-[2026-03-05 19:10:00,325] INFO - crop_yield_prediction.components.model_evaluation - Metrics saved locally at artifacts\model_evaluation\metrics.json
-[2026-03-05 19:10:30,376] INFO - crop_yield_prediction.components.model_evaluation - Starting model evaluation for Crop Yield Prediction
-[2026-03-05 19:10:31,129] INFO - crop_yield_prediction.components.model_evaluation - Metrics saved locally at artifacts\model_evaluation\metrics.json
-[2026-03-05 19:10:54,923] INFO - crop_yield_prediction.components.model_evaluation - Metrics logged to MLflow successfully
-[2026-03-05 19:10:54,924] INFO - crop_yield_prediction.components.model_evaluation - Evaluation metrics: {'r2_score': 0.9887568110123703, 'rmse': np.float64(9128.864757419024), 'mae': 3398.0076174915453}
-[2026-03-05 19:10:54,924] INFO - crop_yield_prediction.components.model_evaluation - Model evaluation completed successfully
