@@ -6,7 +6,7 @@ from crop_yield_prediction.entity.config_entity import (
     DataIngestionConfig,
     DataValidationConfig,
     DataPreprocessingConfig,
-    ModelTrainerConfig,
+    ModelTrainingConfig,
     ModelEvaluationConfig
 )
 
@@ -84,7 +84,7 @@ class ConfigManager:
 
 
 
-    def get_model_trainer_config(self) -> ModelTrainerConfig:
+    def get_model_trainer_config(self) -> ModelTrainingConfig:
 
         trainer = self.config.get("model_trainer")
         preprocessing = self.config.get("data_preprocessing")
@@ -95,7 +95,7 @@ class ConfigManager:
         root_dir = Path(trainer["root_dir"])
         os.makedirs(root_dir, exist_ok=True)
 
-        return ModelTrainerConfig(
+        return ModelTrainingConfig(
             root_dir=root_dir,
             processed_train_dir=Path(preprocessing["processed_train_dir"]),
             processed_test_dir=Path(preprocessing["processed_test_dir"]),
