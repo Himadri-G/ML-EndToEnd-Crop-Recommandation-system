@@ -308,11 +308,151 @@ Example logs:
 ---
 
 # 📈 Future Improvements
-
-* Add **FastAPI for model serving**
 * Deploy with **Docker**
 * Add **CI/CD pipeline**
 * Deploy on **AWS / GCP**
+
+---
+Here is the **complete Markdown code you can directly paste into your `README.md`** to add the **FastAPI model serving section**.
+
+````markdown
+---
+
+# 🚀 Model Serving with FastAPI
+
+The trained model can be served using a **FastAPI REST API**, enabling real-time crop yield predictions.
+
+FastAPI provides:
+
+- ⚡ High performance inference API
+- 📄 Automatic interactive documentation
+- 🔌 Easy integration with ML pipelines
+- 🚀 Production-ready deployment capability
+
+---
+
+# ▶️ Start the FastAPI Server
+
+Run the API server with:
+
+```bash
+uvicorn api.app:app --reload
+````
+
+The server will start at:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+# 📄 Interactive API Documentation
+
+FastAPI automatically generates interactive API documentation.
+
+Open in your browser:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+You can test the **prediction API directly from the browser**.
+
+---
+
+# 🔮 Prediction API Endpoint
+
+### **POST /predict**
+
+Send input data to get crop yield predictions.
+
+### Example Request
+
+```json
+{
+  "temperature": 25,
+  "rainfall": 120,
+  "humidity": 80
+}
+```
+
+### Example Response
+
+```json
+{
+  "predicted_crop_yield": 3.42
+}
+```
+
+The API will:
+
+1. Load the trained ML pipeline
+2. Apply preprocessing
+3. Generate prediction
+4. Return the result as JSON
+
+---
+
+# 🏗️ Updated Project Architecture
+
+```
+ML-EndToEnd-Crop-Yield-Prediction-System
+│
+├── api/
+│   └── app.py
+│
+├── config/
+│   └── params.yaml
+│
+├── data/
+│
+├── logs/
+│
+├── src/
+│   └── crop_yield_prediction/
+│       ├── components/
+│       ├── configuration/
+│       ├── entity/
+│       ├── pipeline/
+│       └── utils/
+│
+├── dvc.yaml
+├── main.py
+└── README.md
+```
+
+---
+
+# 🧠 ML System Architecture
+
+```mermaid
+flowchart TD
+
+A[Raw Dataset] --> B[Data Ingestion]
+B --> C[Data Validation]
+C --> D[Data Preprocessing]
+D --> E[Feature Engineering]
+E --> F[Model Training]
+F --> G[Model Evaluation]
+G --> H[MLflow Tracking]
+H --> I[Trained Model]
+
+I --> J[FastAPI Model Serving]
+J --> K[Prediction API]
+```
+
+---
+
+# 📦 FastAPI Dependencies
+
+Make sure the following packages are included in **requirements.txt**
+
+```txt
+fastapi
+uvicorn
+pydantic
+```
 
 ---
 
