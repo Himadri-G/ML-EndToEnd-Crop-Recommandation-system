@@ -8,17 +8,10 @@ import numpy as np
 
 from pathlib import Path
 
- 
-from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import GradientBoostingRegressor
-from sklearn.svm import SVR
-from sklearn.neighbors import KNeighborsRegressor
 
- 
-from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.pipeline import Pipeline
- 
+
 from sklearn.metrics import r2_score, mean_squared_error
 
 from crop_yield_prediction.entity.config_entity import ModelTrainingConfig
@@ -172,7 +165,7 @@ class ModelTraining:
                 r2 = r2_score(y_test, preds)
                 rmse = np.sqrt(mean_squared_error(y_test, preds))
 
-                logger.info(f"{model_name} R2 Score: {r2}")
+                logger.info(f"{model_name} -> R2: {r2:.4f}, RMSE: {rmse:.4f}")
 
                 if r2 > best_score:
 
@@ -180,23 +173,13 @@ class ModelTraining:
                     best_model = model
                     best_model_name = model_name
 
+        # ---------------- CREATE PIPELINE ---------------- #
 
-        # ---------------- SAVE BEST MODEL ---------------- #
+        logger.info(f"Best model selected: {best_model_name}")
 
-        Path(self.config.model_path).parent.mkdir(parents=True, exist_ok=True)
-
-        joblib.dump(best_model, self.config.model_path)
-
-        mlflow.sklearn.log_model(
-            best_model,
- 
-            logger.info(f"best model selected : {best_model_name}")
-
-            # ---------------- CREATE PIPELINE ---------------- #
-
-            pipeline = Pipeline([
-                ("model", best_model)
-            ])
+        pipeline = Pipeline([
+            ("model", best_model)
+        ])
 
         # ---------------- SAVE PIPELINE ---------------- #
 
@@ -204,20 +187,17 @@ class ModelTraining:
 
         joblib.dump(pipeline, self.config.model_path)
 
+        logger.info(f"Pipeline saved at: {self.config.model_path}")
+
         # ---------------- LOG TO MLFLOW ---------------- #
 
         mlflow.sklearn.log_model(
             pipeline,
-
             artifact_path="model",
             registered_model_name=self.config.mlflow_registered_model_name
         )
 
         logger.info(f"Best Model: {best_model_name}")
-        logger.info(f"Best R2 Score: {best_score}")
- 
-
-        logger.info(f"Pipeline saved at: {self.config.model_path}")
-
+        logger.info(f"Best R2 Score: {best_score:.4f}")
 
         return self.config.model_path
